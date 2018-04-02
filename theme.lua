@@ -30,19 +30,20 @@ function theme.drawBox(x,y,w,h, colors, cornerRadius)
 	love.graphics.rectangle('fill', x,y, w,h, cornerRadius)
 end
 
-function theme.getVerticalOffsetForAlign(valign, font, h)
+function theme.getVerticalOffsetForAlign(text, valign, font, w, h)
 	if valign == "top" then
 		return 0
 	elseif valign == "bottom" then
 		return h - font:getHeight()
 	end
 	-- else: "middle"
-	return (h - font:getHeight()) / 2
+    local tw, wrappedtext = font:getWrap(text, w)
+	return (h - font:getHeight() * #wrappedtext) / 2
 end
 
 -- WIDGET VIEWS
 function theme.Label(text, opt, x,y,w,h)
-	y = y + theme.getVerticalOffsetForAlign(opt.valign, opt.font, h)
+	y = y + theme.getVerticalOffsetForAlign(text, opt.valign, opt.font, w-4, h)
 
 	love.graphics.setColor((opt.color and opt.color.normal or {}).fg or theme.color.normal.fg)
 	love.graphics.setFont(opt.font)
@@ -56,7 +57,7 @@ function theme.Button(text, opt, x,y,w,h)
 	love.graphics.setColor(c.fg)
 	love.graphics.setFont(opt.font)
 
-	y = y + theme.getVerticalOffsetForAlign(opt.valign, opt.font, h)
+	y = y + theme.getVerticalOffsetForAlign(text, opt.valign, opt.font, w-4, h)
 	love.graphics.printf(text, x+2, y, w-4, opt.align or "center")
 end
 
@@ -75,7 +76,7 @@ function theme.Checkbox(chk, opt, x,y,w,h)
 
 	if chk.text then
 		love.graphics.setFont(opt.font)
-		y = y + theme.getVerticalOffsetForAlign(opt.valign, opt.font, h)
+		y = y + theme.getVerticalOffsetForAlign(text, opt.valign, opt.font, w-h, h)
 		love.graphics.printf(chk.text, x + h, y, w - h, opt.align or "left")
 	end
 end
