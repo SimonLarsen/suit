@@ -18,6 +18,7 @@ function suit.new(theme)
 		draw_queue = {n = 0},
 
 		Button = require(BASE.."button"),
+		Image = require(BASE.."image"),
 		ImageButton = require(BASE.."imagebutton"),
 		Label = require(BASE.."label"),
 		Checkbox = require(BASE.."checkbox"),
