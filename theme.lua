@@ -6,9 +6,9 @@ local theme = {}
 theme.cornerRadius = 4
 
 theme.color = {
-	normal   = {bg = { 66, 66, 66}, fg = {188,188,188}},
-	hovered  = {bg = { 50,153,187}, fg = {255,255,255}},
-	active   = {bg = {255,153,  0}, fg = {225,225,225}}
+	normal  = {bg = { 66, 66, 66}, fg = {188,188,188}},
+	hovered = {bg = { 50,153,187}, fg = {255,255,255}},
+	active  = {bg = {255,153,  0}, fg = {225,225,225}}
 }
 
 
@@ -37,13 +37,14 @@ function theme.getVerticalOffsetForAlign(text, valign, font, w, h)
 		return h - font:getHeight()
 	end
 	-- else: "middle"
-    local tw, wrappedtext = font:getWrap(text, w)
+	local tw, wrappedtext = font:getWrap(text, w)
 	return (h - font:getHeight() * #wrappedtext) / 2
 end
 
 -- WIDGET VIEWS
 function theme.Label(text, opt, x,y,w,h)
 	y = y + theme.getVerticalOffsetForAlign(text, opt.valign, opt.font, w-4, h)
+	y = math.floor(y + 0.5)
 
 	love.graphics.setColor((opt.color and opt.color.normal or {}).fg or theme.color.normal.fg)
 	love.graphics.setFont(opt.font)
@@ -83,7 +84,7 @@ end
 
 function theme.Slider(fraction, opt, x,y,w,h)
 	local xb, yb, wb, hb -- size of the progress bar
-	local r =  math.min(w,h) / 2.1
+	local r = math.min(w,h) / 2.1
 	if opt.vertical then
 		x, w = x + w*.25, w*.5
 		xb, yb, wb, hb = x, y+h*(1-fraction), w, h*fraction
