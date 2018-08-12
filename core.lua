@@ -206,7 +206,7 @@ end
 function suit:draw()
 	self:exitFrame()
 	love.graphics.push('all')
-	for i = self.draw_queue.n,1,-1 do
+	for i = 1,self.draw_queue.n do
 		self.draw_queue[i]()
 	end
 	love.graphics.pop()
